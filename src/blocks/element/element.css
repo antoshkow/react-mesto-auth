@@ -1,0 +1,19 @@
+.element {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  border-radius: 10px;
+  background-color: #fff;
+  position: relative;
+}
+
+@media screen and (max-width: 767px) {
+  .element {
+    max-width: 282px;
+    margin-bottom: 20px;
+  }
+
+  .element:last-child {
+    margin-bottom: 0;
+  }
+}
