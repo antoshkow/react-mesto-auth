@@ -36,7 +36,7 @@ function App() {
     email: ''
   });
   const [isRegisterSuccess, setIsRegisterSuccess] = React.useState('');
-  const [errorText, setErrorText] = React.useState('');
+  const [errorText, setErrorText] = React.useState(null);
 
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = React.useState(false);
 
@@ -182,14 +182,15 @@ function App() {
   function handleRegister(email, password) {
     auth.register(email, password)
       .then(() => {
+        setErrorText(null);
         handleTooltip();
         setIsRegisterSuccess(true);
         history.push('/sign-in');
       })
       .catch((err) => {
         setIsRegisterSuccess(false);
-        if (err.status === 400) {
-          setErrorText('Некорректно заполнено одно из полей');
+        if (err === 'Ошибка: 400') {
+          setErrorText('Пользователь с таким email уже зарегистрирован!');
         } else {
           setErrorText('Что-то пошло не так! Попробуйте еще раз.');
         }
@@ -207,15 +208,14 @@ function App() {
         setIsLoggedIn(true);
         setUserData({ email: email });
         history.push('/');
+        setErrorText(null);
       })
       .catch((err) => {
         console.log(err);
         setIsTooltipPopupOpen(true);
         setIsRegisterSuccess(false);
-        if (err.status === 401) {
-          setErrorText('Пользователь с email не найден')
-        } else if (err.status === 400) {
-          setErrorText('Не передано одно из полей')
+        if (err === 'Ошибка: 401') {
+          setErrorText('Некорректно заполнено одно из полей')
         } else {
           setErrorText('Что-то пошло не так! Попробуйте еще раз.')
         }
@@ -237,7 +237,6 @@ function App() {
   }
 
   React.useEffect(() => {
-    tokenCheck();
     api.getInitialCards()
       .then((data) => {
         setCards(data)
@@ -248,7 +247,6 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    tokenCheck();
     api.getUserInfo()
       .then((userData) => {
         setCurrentUser(userData);
@@ -256,6 +254,10 @@ function App() {
       .catch((err) => {
         console.log(err)
       });
+  }, []);
+
+  React.useEffect(() => {
+    tokenCheck();
   }, []);
 
   return (
