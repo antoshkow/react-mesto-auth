@@ -2,3 +2,10 @@
   padding-left: 36px;
   padding-right: 36px;
 }
+
+@media screen and (max-width: 767px) {
+  .popup__container_tooltip {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}

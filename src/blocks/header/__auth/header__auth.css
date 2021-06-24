@@ -2,3 +2,9 @@
   display: flex;
   margin: 10px 0 0 0;
 }
+
+@media screen and (max-width: 767px) {
+  .header__auth {
+    margin-top: 0;
+  }
+}

@@ -21,7 +21,7 @@ function Login({ handleLogin }) {
   return (
     <section className="auth">
       <form
-        noValidate
+        // noValidate
         className="auth__form"
         onSubmit={handleSubmit}
         name="form-login"

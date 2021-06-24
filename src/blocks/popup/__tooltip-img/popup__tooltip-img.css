@@ -3,3 +3,9 @@
   width: 120px;
   margin: 60px auto 32px;
 }
+
+@media screen and (max-width: 767px) {
+  .popup__tooltip-img {
+    margin-top: 50px;
+  }
+}

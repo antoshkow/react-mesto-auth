@@ -12,6 +12,7 @@ import Login from './Login';
 import Register from './Register';
 import ProtectedRoute from './ProtectedRoute';
 import InfoToolTip from './InfoTooltip';
+import BurgerMenu from './BurgerMenu';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/api';
 import * as auth from '../utils/auth';
@@ -35,6 +36,9 @@ function App() {
     email: ''
   });
   const [isRegisterSuccess, setIsRegisterSuccess] = React.useState('');
+  const [errorText, setErrorText] = React.useState('');
+
+  const [isBurgerMenuOpened, setIsBurgerMenuOpened] = React.useState(false);
 
   const history = useHistory();
 
@@ -183,10 +187,16 @@ function App() {
         history.push('/sign-in');
       })
       .catch((err) => {
-        console.log(err);
-        setIsTooltipPopupOpen(true);
         setIsRegisterSuccess(false);
-      });
+        if (err.status === 400) {
+          setErrorText('Некорректно заполнено одно из полей');
+        } else {
+          setErrorText('Что-то пошло не так! Попробуйте еще раз.');
+        }
+      })
+      .finally(() => {
+        setIsTooltipPopupOpen(true);
+      })
   }
 
   //Обработчик сабмита логина
@@ -200,7 +210,22 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      });
+        setIsTooltipPopupOpen(true);
+        setIsRegisterSuccess(false);
+        if (err.status === 401) {
+          setErrorText('Пользователь с email не найден')
+        } else if (err.status === 400) {
+          setErrorText('Не передано одно из полей')
+        } else {
+          setErrorText('Что-то пошло не так! Попробуйте еще раз.')
+        }
+
+        });
+  }
+
+  //Обработчик мобильного меню
+  function handleMenuClick() {
+    setIsBurgerMenuOpened(!isBurgerMenuOpened);
   }
 
   //Выход из профиля
@@ -236,9 +261,18 @@ function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
+        { isBurgerMenuOpened &&
+          isLoggedIn &&
+          <BurgerMenu
+            email={userData.email}
+            handleLogOut={handleSignOut}
+          />
+        }
         <Header
           email={userData.email}
           onSignOut={handleSignOut}
+          handleMenuClick={handleMenuClick}
+          isMenuOpened={isBurgerMenuOpened}
         />
         <Switch>
           <ProtectedRoute
@@ -266,6 +300,7 @@ function App() {
           isRegisterSuccess={isRegisterSuccess}
           isOpen={isTooltipPopupOpen}
           onClose={closeAllPopups}
+          errorText={errorText}
         />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

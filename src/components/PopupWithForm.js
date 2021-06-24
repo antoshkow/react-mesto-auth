@@ -1,12 +1,12 @@
-function PopupWithForm({ name, title, children, btnText, isOpen, onClose, onSubmit, formMod, titleMod, btnMod }) {
+function PopupWithForm({ name, title, children, btnText, isOpen, onClose, onSubmit }) {
   return (
     <section
       className={isOpen ? `popup popup_${name} popup_opened` : `popup popup_${name}`}
     >
       <form
-        className={`popup__container popup__container_${formMod}`}
+        className='popup__container'
         name={`${name}`}
-        noValidate
+        // noValidate
         onSubmit={onSubmit}
       >
         <button
@@ -14,11 +14,11 @@ function PopupWithForm({ name, title, children, btnText, isOpen, onClose, onSubm
           className="popup__close"
           onClick={onClose}
         />
-        <h2 className={`popup__title popup__title_${titleMod}`}>{title}</h2>
+        <h2 className='popup__title'>{title}</h2>
         <div>{children}</div>
         <button
           type="submit"
-          className={`popup__submit-button popup__submit-button_${btnMod}`}
+          className='popup__submit-button'
         >
           {btnText}
         </button>

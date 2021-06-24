@@ -22,7 +22,7 @@ function Register({ handleRegister }) {
   return (
     <section className="auth">
       <form
-        noValidate
+        // noValidate
         className="auth__form"
         name="form-register"
         onSubmit={handleSubmit}
