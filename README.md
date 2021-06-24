@@ -12,14 +12,15 @@
   - flexbox;
   - grid layout;
   - адаптивная верстка;
-  - валидация форм;
+  - валидация форм (с помощью библиотеки react-formal);
   - код написан в соответствии с ООП;
   - применяется сборщик модулей (Webpack);
-  - React;
+  - framework React JS;
   - React-хуки;
   - библиотека react-router-dom;
-  - localStorage и JWT.
+  - localStorage и JWT;
+  - работа с внешним API.
 
-4. Системные требования: язык HTML5/CSS3/JavaScript; web-браузер (браузер автора - Opera); сборщик - Webpack; фреймворк React (react-router-dom).
+4. Системные требования: язык HTML5/CSS3/JavaScript; web-браузер (браузер автора - Opera); сборщик - Webpack; фреймворк - React (react-router-dom, react-formal).
 
 5. [Ссылка на gh-pages.](https://antoshkow.github.io/mesto/ "Ссылка на gh-pages.")
