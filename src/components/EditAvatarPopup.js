@@ -35,7 +35,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, btnText }) {
         required
       />
       <span
-        className="popup__error"
+        className="popup__error popup__error_visible"
         id="popup-avatar-link-error"
       >
         {errors.avatar || ''}
