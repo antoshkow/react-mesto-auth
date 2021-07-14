@@ -7,7 +7,6 @@ function SubmitPopup({ isOpen, onClose, onSubmitDelete, btnText }) {
     onSubmitDelete();
   }
 
-
   return (
     <PopupWithForm
       name="confirm"

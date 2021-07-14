@@ -1,7 +1,7 @@
 import success from "../images/success.svg";
 import fail from "../images/fail.svg"
 import Popup from "./Popup";
-// { isOpen, onClose, onUpdateUser, btnText }
+
 function InfoToolTip({ onClose, isOpen, isRegisterSuccess, errorText }) {
     return (
       <Popup
@@ -26,7 +26,6 @@ function InfoToolTip({ onClose, isOpen, isRegisterSuccess, errorText }) {
         <h2 className="popup__tooltip-info">
           {isRegisterSuccess
             ? "Вы успешно зарегистрировались!"
-            // : "Что-то пошло не так! Попробуйте еще раз."
             : errorText
           }
         </h2>

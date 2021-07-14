@@ -164,22 +164,6 @@ function App() {
     setIsLightboxPopupOpen(true);
   }
 
-  //Обработчик проверки токена
-  function tokenCheck() {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      auth.getContent(jwt)
-        .then((res) => {
-          setIsLoggedIn(true);
-          setUserData({ email: res.data.email });
-          history.push('/');
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
-
   //Обработчик сабмита регистрации
   function handleRegister(email, password) {
     auth.register(email, password)
@@ -192,7 +176,7 @@ function App() {
       .catch((err) => {
         setIsRegisterSuccess(false);
         if (err === 'Ошибка: 400') {
-          setErrorText('Пользователь с таким email уже зарегистрирован!');
+          setErrorText('Пользователь с таким email уже зарегистрирован, или не передано одно из полей!');
         } else {
           setErrorText('Что-то пошло не так! Попробуйте еще раз.');
         }
@@ -259,8 +243,22 @@ function App() {
   }, []);
 
   React.useEffect(() => {
-    tokenCheck();
-  }, []);
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      auth.getContent(jwt)
+        .then((res) => {
+          setIsLoggedIn(true);
+          setUserData({ email: res.data.email });
+          history.push('/');
+        })
+        .catch((err) => {
+          console.log(err);
+          localStorage.removeItem('jwt');
+        })
+      } else {
+        setIsLoggedIn(false)
+      };
+  }, [history]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
