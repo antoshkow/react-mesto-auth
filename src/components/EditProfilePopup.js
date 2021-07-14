@@ -1,32 +1,22 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
 import CurrentUserContext from '../contexts/CurrentUserContext';
+import { useFormWithValidation } from '../hooks/useForm';
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser, btnText }) {
   const currentUser = React.useContext(CurrentUserContext);
 
-  const [name, setName] = React.useState('');
-  const [description, setDescription] = React.useState('');
+  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();
 
   React.useEffect(() => {
-    setName(currentUser.name);
-    setDescription(currentUser.about);
-  }, [currentUser, isOpen]);
-
-  function onChangeName(evt) {
-    setName(evt.target.value);
-  }
-
-  function onChangeDescription(evt) {
-    setDescription(evt.target.value);
-  }
+    if (currentUser) {
+      resetForm(currentUser, {}, true);
+    }
+  }, [currentUser, resetForm]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onUpdateUser({
-      name,
-      about: description
-    });
+    onUpdateUser(values);
   }
 
   return (
@@ -37,10 +27,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, btnText }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isDisabled={!isValid}
     >
       <input
-        onChange={onChangeName}
-        value={name || ''}
+        onChange={handleChange}
+        value={values.name || ''}
         type="text"
         name="name"
         id="popup-name"
@@ -51,14 +42,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, btnText }) {
         required
       />
       <span
-        className="popup__error"
+        className="popup__error popup__error_visible"
         id="popup-name-error"
-      />
+      >
+        {errors.name || ''}
+      </span>
       <input
-        onChange={onChangeDescription}
-        value={description || ''}
+        onChange={handleChange}
+        value={values.about || ''}
         type="text"
-        name="description"
+        name="about"
         id="popup-description"
         className="popup__input"
         placeholder="О себе"
@@ -67,9 +60,11 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser, btnText }) {
         required
       />
       <span
-        className="popup__error"
+        className="popup__error popup__error_visible"
         id="popup-name-error"
-      />
+      >
+        {errors.about || ''}
+      </span>
     </PopupWithForm>
   );
 }

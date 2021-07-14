@@ -1,26 +1,23 @@
 import React from 'react';
 import PopupWithForm from './PopupWithForm';
+import { useFormWithValidation } from '../hooks/useForm';
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace, btnText }) {
-  const [name, setName] = React.useState('');
-  const [link, setLink] = React.useState('');
+  const {values, handleChange, resetForm, errors, isValid} = useFormWithValidation();
 
-  function onChangeName(evt) {
-    setName(evt.target.value);
-  }
+  // React.useEffect(() => {
+  //   if (currentUser) {
+  //     resetForm(currentUser, {}, true);
+  //   }
+  // }, [currentUser, resetForm]);
 
-  function onChangeLink(evt) {
-    setLink(evt.target.value);
-  }
+  React.useEffect(() => {
+    resetForm()
+  }, [isOpen, resetForm]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onAddPlace({
-      name: name,
-      link: link
-    });
-    setName('');
-    setLink('');
+    onAddPlace(values);
   }
 
   return (
@@ -31,12 +28,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, btnText }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isDisabled={!isValid}
     >
       <input
-        onChange={onChangeName}
-        value={name}
+        onChange={handleChange}
+        value={values.name || ''}
         type="text"
-        name="photo-name"
+        name="name"
         id="popup-add-name"
         className="popup__input"
         placeholder="Название"
@@ -45,23 +43,27 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, btnText }) {
         required
       />
       <span
-        className="popup__error"
+        className="popup__error popup__error_visible"
         id="popup-add-name-error"
-      />
+      >
+        {errors.name || ''}
+      </span>
       <input
-        onChange={onChangeLink}
-        value={link}
+        onChange={handleChange}
+        value={values.link || ''}
         type="url"
-        name="photo-link"
+        name="link"
         id="popup-photo-link"
         className="popup__input"
-        placeholder="Ссылка на картинку"
+        placeholder="Ссылка на изображение"
         required
       />
       <span
-        className="popup__error"
+        className="popup__error popup__error_visible"
         id="popup-photo-link-error"
-      />
+      >
+        {errors.link || ''}
+      </span>
     </PopupWithForm>
   );
 }

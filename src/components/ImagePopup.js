@@ -1,7 +1,7 @@
-function ImagePopup({ card, onClose }) {
+function ImagePopup({ card, onClose, isOpen }) {
   return (
     <section
-      className={`popup popup_lightbox ${card.isOpened ? 'popup_opened' : ''}`}
+      className={`popup popup_lightbox ${isOpen && 'popup_opened'}`}
     >
       <figure className="popup__figure">
         <button

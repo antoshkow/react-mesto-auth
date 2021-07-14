@@ -24,6 +24,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = React.useState(false);
   const [isTooltipPopupOpen, setIsTooltipPopupOpen] = React.useState(false);
+  const [isLightboxPopupOpen, setIsLightboxPopupOpen] = React.useState(false);
 
   const [cardId, setCardId] = React.useState(null);
   const [cards, setCards] = React.useState([]);
@@ -78,9 +79,9 @@ function App() {
     setIsEditProfilePopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
-    setSelectedCard({ isOpened: false });
     setIsSubmitPopupOpen(false);
     setIsTooltipPopupOpen(false);
+    setIsLightboxPopupOpen(false);
   }
 
   //Обработчик лайка карточки
@@ -160,6 +161,7 @@ function App() {
       name,
       isOpened: !isOpened
     });
+    setIsLightboxPopupOpen(true);
   }
 
   //Обработчик проверки токена
@@ -313,6 +315,7 @@ function App() {
         <ImagePopup
           card={selectedCard}
           onClose={closeAllPopups}
+          isOpen={isLightboxPopupOpen}
         />
         <EditAvatarPopup
           isOpen={isEditAvatarPopupOpen}
