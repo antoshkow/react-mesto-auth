@@ -23,4 +23,4 @@
 
 4. Системные требования: язык HTML5/CSS3/JavaScript; web-браузер (браузер автора - Opera); сборщик - Webpack; фреймворк - React (react-router-dom).
 
-5. [Ссылка на gh-pages.](https://antoshkow.github.io/mesto/ "Ссылка на gh-pages.")
+5. [Ссылка на деплой.](https://react-mesto-auth-nu.vercel.app/ "Ссылка на деплой.")
