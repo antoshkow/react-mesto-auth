@@ -24,6 +24,7 @@ function App() {
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [isSubmitPopupOpen, setIsSubmitPopupOpen] = React.useState(false);
   const [isTooltipPopupOpen, setIsTooltipPopupOpen] = React.useState(false);
+  const [tooltipStatus, setTooltipStatus] = React.useState();
   const [isLightboxPopupOpen, setIsLightboxPopupOpen] = React.useState(false);
 
   const [cardId, setCardId] = React.useState(null);
@@ -36,8 +37,6 @@ function App() {
   const [userData, setUserData] = React.useState({
     email: ''
   });
-  const [isRegisterSuccess, setIsRegisterSuccess] = React.useState('');
-  const [errorText, setErrorText] = React.useState(null);
 
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = React.useState(false);
 
@@ -71,9 +70,6 @@ function App() {
   }
   function handleSubmitClick() {
     setIsSubmitPopupOpen(!isSubmitPopupOpen);
-  }
-  function handleTooltip() {
-    setIsTooltipPopupOpen(!isTooltipPopupOpen);
   }
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
@@ -168,22 +164,28 @@ function App() {
   function handleRegister(email, password) {
     auth.register(email, password)
       .then(() => {
-        setErrorText(null);
-        handleTooltip();
-        setIsRegisterSuccess(true);
+        setTooltipStatus({
+          text: 'Вы успешно зарегистрировались',
+          iconType: 'success'
+        });
         history.push('/sign-in');
-      })
-      .catch((err) => {
-        setIsRegisterSuccess(false);
-        if (err === 'Ошибка: 400') {
-          setErrorText('Пользователь с таким email уже зарегистрирован, или не передано одно из полей!');
-        } else {
-          setErrorText('Что-то пошло не так! Попробуйте еще раз.');
-        }
-      })
-      .finally(() => {
         setIsTooltipPopupOpen(true);
       })
+      .catch((err) => {
+        if (err === 'Ошибка: 400') {
+          setIsTooltipPopupOpen(true);
+          setTooltipStatus({
+            text: 'Пользователь с таким email уже зарегистрирован, или не передано одно из полей!',
+            iconType: 'fail'
+          });
+        } else {
+          setIsTooltipPopupOpen(true);
+          setTooltipStatus({
+            text: 'Что-то пошло не так! Попробуйте ещё раз.',
+            iconType: 'fail'
+          });
+        }
+      });
   }
 
   //Обработчик сабмита логина
@@ -194,19 +196,22 @@ function App() {
         setIsLoggedIn(true);
         setUserData({ email: email });
         history.push('/');
-        setErrorText(null);
       })
       .catch((err) => {
-        console.log(err);
-        setIsTooltipPopupOpen(true);
-        setIsRegisterSuccess(false);
         if (err === 'Ошибка: 401') {
-          setErrorText('Некорректно заполнено одно из полей')
+          setIsTooltipPopupOpen(true);
+          setTooltipStatus({
+            text: 'Некорректно заполнено одно из полей',
+            iconType: 'fail'
+          });
         } else {
-          setErrorText('Что-то пошло не так! Попробуйте еще раз.')
+          setIsTooltipPopupOpen(true);
+          setTooltipStatus({
+            text: 'Что-то пошло не так! Попробуйте еще раз.',
+            iconType: 'fail'
+          });
         }
-
-        });
+      });
   }
 
   //Обработчик мобильного меню
@@ -299,10 +304,9 @@ function App() {
         </Switch>
         {isLoggedIn && <Footer />}
         <InfoToolTip
-          isRegisterSuccess={isRegisterSuccess}
           isOpen={isTooltipPopupOpen}
           onClose={closeAllPopups}
-          errorText={errorText}
+          status={tooltipStatus}
         />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}

@@ -2,7 +2,12 @@ import success from "../images/success.svg";
 import fail from "../images/fail.svg"
 import Popup from "./Popup";
 
-function InfoToolTip({ onClose, isOpen, isRegisterSuccess, errorText }) {
+const ICONS = {
+  success: success,
+  fail: fail
+}
+
+function InfoToolTip({ onClose, isOpen, status: { iconType, text } = {}, isRegisterSuccess}) {
     return (
       <Popup
         name="tooltip"
@@ -10,24 +15,13 @@ function InfoToolTip({ onClose, isOpen, isRegisterSuccess, errorText }) {
         isOpen={isOpen}
         onClose={onClose}
       >
-        {
-          isRegisterSuccess
-            ? <img
-                src={success}
-                className="popup__tooltip-img"
-                alt="успешная регистрация"
-              />
-            : <img
-                src={fail}
-                className="popup__tooltip-img"
-                alt="успешная регистрация"
-              />
-        }
+        <img
+          src={ICONS[iconType]}
+          className="popup__tooltip-img"
+          alt={text}
+        />
         <h2 className="popup__tooltip-info">
-          {isRegisterSuccess
-            ? "Вы успешно зарегистрировались!"
-            : errorText
-          }
+          {text}
         </h2>
       </Popup>
     );
