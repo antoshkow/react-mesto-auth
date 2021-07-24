@@ -60,3 +60,6 @@
 @import url(./blocks/auth/__form/auth__form.css);
 @import url(./blocks/auth/__btn/auth__btn.css);
 @import url(./blocks/auth/__link/auth__link.css);
+@import url(./blocks/preloader/preloader.css);
+@import url(./blocks/preloader/__circle/preloader__circle.css);
+@import url(./blocks/loading/loading.css);

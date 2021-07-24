@@ -1,8 +1,20 @@
 import React from 'react';
 import Card from './Card';
+import Preloader from './Preloader';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 
-function Main({ onEditAvatar, onAddPlace, onEditProfile, onCardClick, onCardLike, onCardDelete, getCardId, cards }) {
+function Main({
+  onEditAvatar,
+  onAddPlace,
+  onEditProfile,
+  onCardClick,
+  onCardLike,
+  onCardDelete,
+  getCardId,
+  cards,
+  isCardsLoading,
+  isCardsError
+}) {
   const { name, avatar, about } = React.useContext(CurrentUserContext);
 
   return (
@@ -38,9 +50,17 @@ function Main({ onEditAvatar, onAddPlace, onEditProfile, onCardClick, onCardLike
           onClick={onAddPlace}
         />
       </section>
-      <ul className="elements">
-        {
-          cards.map((card) => (
+      {isCardsLoading && (
+        <Preloader />
+      )}
+
+      {isCardsError && (
+        <p className="loading">Произошла ошибка</p>
+      )}
+
+      {!isCardsLoading && !isCardsError && (
+        <ul className="elements">
+          {cards.map((card) => (
             <Card
               key={card._id}
               name={card.name}
@@ -48,15 +68,14 @@ function Main({ onEditAvatar, onAddPlace, onEditProfile, onCardClick, onCardLike
               likes={card.likes}
               owner={card.owner}
               cardId={card._id}
-
               onCardClick={onCardClick}
               onCardLike={onCardLike}
               onCardDelete={onCardDelete}
               getCardId={getCardId}
             />
-          ))
-        }
-      </ul>
+          ))}
+        </ul>
+      )}
     </main>
   );
 }

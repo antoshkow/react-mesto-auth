@@ -40,6 +40,12 @@ function App() {
 
   const [isBurgerMenuOpened, setIsBurgerMenuOpened] = React.useState(false);
 
+  const [isCardsLoading, setIsCardsLoading] = React.useState(false);
+  const [isCardsLoadError, setIsCardsLoadError] = React.useState(null);
+  const [isCardsSending, setIsCardsSending] = React.useState(false);
+
+  const [isAuthChecking, setIsAuthChecking] = React.useState(true);
+
   const history = useHistory();
 
   //Закрытие попапов кликом на esc
@@ -138,6 +144,7 @@ function App() {
 
   //Обработчик сабмита формы добавления карточки
   function handleAddPlaceSubmit(newCard) {
+    setIsCardsSending(true);
     api.addNewCard(newCard)
       .then((newCard) => {
         setCards([newCard, ...cards]);
@@ -146,7 +153,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-      });
+      })
+      .finally(() => {
+        setIsCardsSending(false);
+      })
     setLoading('Создание...')
   }
 
@@ -173,17 +183,17 @@ function App() {
       })
       .catch((err) => {
         if (err === 'Ошибка: 400') {
-          setIsTooltipPopupOpen(true);
           setTooltipStatus({
             text: 'Пользователь с таким email уже зарегистрирован, или не передано одно из полей!',
             iconType: 'fail'
           });
-        } else {
           setIsTooltipPopupOpen(true);
+        } else {
           setTooltipStatus({
             text: 'Что-то пошло не так! Попробуйте ещё раз.',
             iconType: 'fail'
           });
+          setIsTooltipPopupOpen(true);
         }
       });
   }
@@ -228,12 +238,18 @@ function App() {
   }
 
   React.useEffect(() => {
+    setIsCardsLoading(true);
+    setIsCardsLoadError();
     api.getInitialCards()
       .then((data) => {
         setCards(data)
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
+        setIsCardsLoadError(err);
+      })
+      .finally(() => {
+        setIsCardsLoading(false);
       });
   }, []);
 
@@ -250,6 +266,7 @@ function App() {
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
+      setIsAuthChecking(true);
       auth.getContent(jwt)
         .then((res) => {
           setIsLoggedIn(true);
@@ -260,6 +277,7 @@ function App() {
           console.log(err);
           localStorage.removeItem('jwt');
         })
+        .finally(() => setIsAuthChecking(false));
       } else {
         setIsLoggedIn(false)
       };
@@ -285,6 +303,7 @@ function App() {
           <ProtectedRoute
             exact path="/"
             isLoggedIn={isLoggedIn}
+            isChecking={isAuthChecking}
             component={Main}
             onEditProfile={handleEditProfileClick}
             onEditAvatar={handleEditAvatarClick}
@@ -294,6 +313,8 @@ function App() {
             onCardDelete={handleSubmitClick}
             getCardId={setCardId}
             cards={cards}
+            isCardsLoading={isCardsLoading}
+            isCardsError={isCardsLoadError}
           />
           <Route path="/sign-in">
             <Login handleLogin={handleLogin} />
@@ -330,6 +351,7 @@ function App() {
           onClose={closeAllPopups}
           onAddPlace={handleAddPlaceSubmit}
           btnText={loading || "Создать"}
+          isSending={isCardsSending}
         />
         <SubmitPopup
           isOpen={isSubmitPopupOpen}

@@ -1,0 +1,25 @@
+.loading {
+  color: #fff;
+  text-align: center;
+  font-size: 80px;
+  width: 100%;
+  max-width: 882px;
+  box-sizing: border-box;
+  position: relative;
+  margin: 0 auto;
+  font-family: 'Inter', Arial, sans-serif;
+  padding: 15px 0 36px;
+}
+
+@media screen and (max-width: 1140px) {
+  .loading {
+    width: calc(100% - 40px);
+    font-size: 38px;
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .loading {
+    padding: 15px 0 18px;
+  }
+}
