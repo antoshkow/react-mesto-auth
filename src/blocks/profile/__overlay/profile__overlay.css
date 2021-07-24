@@ -1,23 +1,30 @@
 .profile__overlay {
   max-width: 120px;
   max-height: 120px;
+
   border-radius: 50%;
+
   position: relative;
 }
 
 .profile__overlay:after {
   content: '';
+
   position: absolute;
-  width: 100%;
-  height: 100%;
   top: 0;
   left: 0;
+
+  width: 100%;
+  height: 100%;
+
+
   background: rgba(0, 0, 0, 0.8);
   background-image: url(../../../images/pan.svg);
   background-position: center;
-  cursor: pointer;
   background-repeat: no-repeat;
   background-size: 26px;
+
+  cursor: pointer;
   transition: opacity 1s linear .1s;
   opacity: 0;
 }

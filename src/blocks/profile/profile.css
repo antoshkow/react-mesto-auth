@@ -2,8 +2,10 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+
   max-width: 880px;
   width: 100%;
+
   margin: 0 auto;
   padding-top: 40px;
 }
@@ -11,6 +13,7 @@
 @media screen and (max-width: 940px) {
   .profile {
     max-width: 90vw;
+
     padding-left: 27px;
     padding-right: 27px;
   }

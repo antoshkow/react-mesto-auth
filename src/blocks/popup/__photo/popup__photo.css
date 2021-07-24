@@ -1,6 +1,8 @@
 .popup__photo {
   border-radius: 0px;
+
   max-width: 75vw;
   max-height: 75vh;
+
   padding-bottom: 10px;
 }

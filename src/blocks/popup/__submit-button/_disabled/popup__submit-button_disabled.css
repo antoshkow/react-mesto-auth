@@ -1,8 +1,8 @@
 .popup__submit-button_disabled {
   background: #fff;
-  border: 1px solid #000;
   color: #000;
   opacity: .2;
+  border: 1px solid #000;
 }
 
 .popup__submit-button:hover {

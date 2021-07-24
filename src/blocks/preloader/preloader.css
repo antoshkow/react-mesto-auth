@@ -5,10 +5,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
+
   width: 100%;
   max-width: 882px;
+
   box-sizing: border-box;
+
   position: relative;
+
   margin: 60px auto;
 }
 

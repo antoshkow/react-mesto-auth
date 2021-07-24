@@ -2,8 +2,10 @@
   font-weight: 900;
   font-size: 24px;
   line-height: 29px;
-  margin: 32px auto 60px auto;
   text-align: center;
+
+  margin: 32px auto 60px auto;
+
   color: #000;
 }
 
@@ -11,6 +13,7 @@
   .popup__tooltip-info {
     font-size: 20px;
     line-height: 24px;
+
     margin-bottom: 50px;
   }
 }

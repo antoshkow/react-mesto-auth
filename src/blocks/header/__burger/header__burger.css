@@ -1,12 +1,17 @@
 .header__burger {
   display: flex;
+
   width: 30px;
   height: 30px;
+
   margin: 0;
   padding: 0;
+
   outline: none;
   border: none;
+
   box-sizing: border-box;
+
   cursor: pointer;
   transition: opacity 1s linear .1s;
 }
