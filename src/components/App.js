@@ -16,7 +16,7 @@ import BurgerMenu from './BurgerMenu';
 import CurrentUserContext from '../contexts/CurrentUserContext';
 import api from '../utils/api';
 import * as auth from '../utils/auth';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
 
 function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
@@ -274,12 +274,11 @@ function App() {
           history.push('/');
         })
         .catch((err) => {
-          console.log(err);
           localStorage.removeItem('jwt');
         })
         .finally(() => setIsAuthChecking(false));
       } else {
-        setIsLoggedIn(false)
+        setIsAuthChecking(false)
       };
   }, [history]);
 
@@ -301,26 +300,62 @@ function App() {
         />
         <Switch>
           <ProtectedRoute
-            exact path="/"
+            exact
+            path="/"
             isLoggedIn={isLoggedIn}
             isChecking={isAuthChecking}
-            component={Main}
-            onEditProfile={handleEditProfileClick}
-            onEditAvatar={handleEditAvatarClick}
-            onAddPlace={handleAddPlaceClick}
-            onCardClick={handleCardClick}
-            onCardLike={handleCardLike}
-            onCardDelete={handleSubmitClick}
-            getCardId={setCardId}
-            cards={cards}
-            isCardsLoading={isCardsLoading}
-            isCardsError={isCardsLoadError}
-          />
+          >
+            <Main
+              cards={cards}
+              onEditProfile={handleEditProfileClick}
+              onAddPlace={handleAddPlaceClick}
+              onEditAvatar={handleEditAvatarClick}
+              onCardClick={handleCardClick}
+              onCardLike={handleCardLike}
+              onCardDelete={handleSubmitClick}
+              getCardId={setCardId}
+              isCardsLoading={isCardsLoading}
+              isCardsError={isCardsLoadError}
+            />
+            <EditProfilePopup
+              isOpen={isEditProfilePopupOpen}
+              onClose={closeAllPopups}
+              onUpdateUser={handleUpdateUser}
+              btnText={loading || "Сохранить"}
+            />
+            <ImagePopup
+              card={selectedCard}
+              onClose={closeAllPopups}
+              isOpen={isLightboxPopupOpen}
+            />
+            <EditAvatarPopup
+              isOpen={isEditAvatarPopupOpen}
+              onClose={closeAllPopups}
+              onUpdateAvatar={handleUpdateAvatar}
+              btnText={loading || "Сохранить"}
+            />
+            <AddPlacePopup
+              isOpen={isAddPlacePopupOpen}
+              onClose={closeAllPopups}
+              onAddPlace={handleAddPlaceSubmit}
+              btnText={loading || "Создать"}
+              isSending={isCardsSending}
+            />
+            <SubmitPopup
+              isOpen={isSubmitPopupOpen}
+              onClose={closeAllPopups}
+              onSubmitDelete={handleCardDelete}
+              btnText={loading || "Да"}
+            />
+          </ProtectedRoute>
           <Route path="/sign-in">
             <Login handleLogin={handleLogin} />
           </Route>
           <Route path="/sign-up">
             <Register handleRegister={handleRegister} />
+          </Route>
+          <Route path="*">
+            {isLoggedIn ? <Redirect to="/"/> : <Redirect to="/sign-in"/>}
           </Route>
         </Switch>
         {isLoggedIn && <Footer />}
@@ -328,36 +363,6 @@ function App() {
           isOpen={isTooltipPopupOpen}
           onClose={closeAllPopups}
           status={tooltipStatus}
-        />
-        <EditProfilePopup
-          isOpen={isEditProfilePopupOpen}
-          onClose={closeAllPopups}
-          onUpdateUser={handleUpdateUser}
-          btnText={loading || "Сохранить"}
-        />
-        <ImagePopup
-          card={selectedCard}
-          onClose={closeAllPopups}
-          isOpen={isLightboxPopupOpen}
-        />
-        <EditAvatarPopup
-          isOpen={isEditAvatarPopupOpen}
-          onClose={closeAllPopups}
-          onUpdateAvatar={handleUpdateAvatar}
-          btnText={loading || "Сохранить"}
-        />
-        <AddPlacePopup
-          isOpen={isAddPlacePopupOpen}
-          onClose={closeAllPopups}
-          onAddPlace={handleAddPlaceSubmit}
-          btnText={loading || "Создать"}
-          isSending={isCardsSending}
-        />
-        <SubmitPopup
-          isOpen={isSubmitPopupOpen}
-          onClose={closeAllPopups}
-          onSubmitDelete={handleCardDelete}
-          btnText={loading || "Да"}
         />
       </div>
     </CurrentUserContext.Provider>
