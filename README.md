@@ -1,26 +1,26 @@
-# Место
+# Mesto
 
-## Проектная работа 3
+## Project work 3.
 
-1. Проектная работа "Место" (спринт 12).
+1. Project work "Mesto" (sprint 12).
 
-2. Интерактивная страница, куда можно добавлять фотографии, удалять их, ставить лайки. Логика написана на JavaScript (появление pop-up окон, валидация форм, добавление карточек и т.п.). В *5-ом спринте* мы реализовали открытие/закрытие и функционал поп-апа добавления элементов, их удаление, а также поп-ап с lightbox-изображением. В *6-ом спринте* мы разработали валидацию форм и улучшили UX при работе с поп-апами. *7 спринт* - рефакторинг кода, начало работы с ООП и модулями (добавлены классы Card и FormValidator). *8 спринт* - код переписан в соответствии с ООП, модульный код собран с помощью Webpack. *9 спринт* - сайт подключен к api. Улучшены ux/ui составляющие.
-Проект полностью портирован на React JS (*10-11 спринты*).
-В данной работе (*12 спринт*) добавлена возможность регистрации и авторизации с помощью роутинга, реализована работа с localStorage и JWT (предварительно подготовлена верстка на JSX).
+2. An interactive page where you can add photos, delete them, put likes. The logic is written in JavaScript (appearance of pop-up windows, form validation, adding cards, etc.). In the *5th sprint* we implemented opening/closing and pop-up functionality for adding elements, removing them, as well as pop-up with a lightbox image. In *6th sprint* we developed form validation and improved UX when working with pop-ups. *Sprint 7* - code refactoring, getting started with OOP and modules (added Card and FormValidator classes). *8 sprint* - code rewritten in accordance with OOP, modular code built using Webpack. *9 sprint* - the site is connected to api. Improved ux/ui components.
+The project is fully ported to React JS (*10-11 sprints*).
+In this work (*12th sprint*), the ability to register and authorize using routing has been added, work with localStorage and JWT has been implemented (layout in JSX has been prepared in advance).
 
-3. Применяемые технологии:
+3. Applied technologies:
   - flexbox;
   - grid layout;
-  - адаптивная верстка;
-  - валидация форм;
-  - код написан в соответствии с ООП/на реакте переписан на функциональные компоненты;
-  - применяется сборщик модулей (Webpack);
+  - adaptive layout;
+  - form validation;
+  - the code is written in accordance with OOP / rewritten in react into functional components.;
+  - module bundler (Webpack);
   - framework React JS;
-  - React-хуки;
-  - библиотека react-router-dom;
-  - localStorage и JWT;
-  - работа с внешним API.
+  - React-hooks;
+  - library react-router-dom;
+  - localStorage and JWT;
+  - work with external API.
 
-4. Системные требования: язык HTML5/CSS3/JavaScript; web-браузер (браузер автора - Opera); сборщик - Webpack; фреймворк - React (react-router-dom).
+4. System preferences: HTML5/CSS3/JavaScript; web-browser (dev browser – Opera); module bundler – Webpack; framework – React (react-router-dom).
 
-5. [Ссылка на деплой.](https://react-mesto-auth-nu.vercel.app/ "Ссылка на деплой.")
+5. [vercel link.](https://react-mesto-auth-nu.vercel.app/ "vercel link.")
